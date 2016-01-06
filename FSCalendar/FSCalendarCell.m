@@ -296,6 +296,18 @@
     _imageView.hidden = !_image;
 }
 
+- (NSString *)accessibilityIdentifierFromDate
+{
+    static NSDateFormatter *formatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"MM_dd";
+    });
+    
+    return [formatter stringFromDate:self.date];
+}
+
 #pragma mark - Properties
 
 - (UIColor *)colorForBackgroundLayer
@@ -359,6 +371,12 @@
             [self setNeedsLayout];
         }
     }
+}
+
+- (void)setDate:(NSDate *)date
+{
+    _date = date;
+    self.accessibilityIdentifier = [self accessibilityIdentifierFromDate];
 }
 
 @end
