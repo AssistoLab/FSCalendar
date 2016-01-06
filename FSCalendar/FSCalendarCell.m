@@ -373,12 +373,6 @@
     }
 }
 
-- (void)setDate:(NSDate *)date
-{
-    _date = date;
-    self.accessibilityIdentifier = [self accessibilityIdentifierFromDate];
-}
-
 @end
 
 

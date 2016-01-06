@@ -1705,6 +1705,10 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
             if (cell.dateIsPlaceholder) {
                 cell.dateIsSelected &= _pagingEnabled;
                 cell.dateIsToday &= _pagingEnabled;
+            } else {
+                if ([self weekdayOfDate:cell.date] != 1) {
+                    cell.accessibilityIdentifier = @"accessible_calendar_cell";
+                }
             }
             break;
         }
