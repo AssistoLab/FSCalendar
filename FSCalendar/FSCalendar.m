@@ -1833,8 +1833,8 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 {
 	NSDate *date = [self dateForIndexPath:indexPath];
 	[self enqueueSelectedDate:date];
-	if (_delegate && [_delegate respondsToSelector:@selector(calendar:didSelectCell:)]) {
-		[_delegate calendar:self didSelectCell:cell];
+	if (_delegate && [_delegate respondsToSelector:@selector(calendar:didSelectCell:withDate:)]) {
+		[_delegate calendar:self didSelectCell:cell withDate:date];
 	}
 }
 
