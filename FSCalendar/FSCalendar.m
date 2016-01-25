@@ -475,6 +475,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     NSDate *selectedDate = [self dateForIndexPath:indexPath];
     if (!_supressEvent) {
         [self didSelectDate:selectedDate];
+		[self didSelectCell:cell atIndexPath:indexPath];
     }
     [self selectCounterpartDate:selectedDate];
 }
@@ -1826,6 +1827,15 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     if (_delegate && [_delegate respondsToSelector:@selector(calendar:didSelectDate:)]) {
         [_delegate calendar:self didSelectDate:date];
     }
+}
+
+- (void)didSelectCell:(FSCalendarCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+	NSDate *date = [self dateForIndexPath:indexPath];
+	[self enqueueSelectedDate:date];
+	if (_delegate && [_delegate respondsToSelector:@selector(calendar:didSelectCell:)]) {
+		[_delegate calendar:self didSelectCell:cell];
+	}
 }
 
 - (BOOL)shouldDeselectDate:(NSDate *)date
