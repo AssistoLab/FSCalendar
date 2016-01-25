@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarScrollDirection) {
     FSCalendarScrollDirectionHorizontal
 };
 
-
+@class FSCalendarCell;
 @class FSCalendar;
 @protocol FSCalendarDelegateDeprecatedProtocol,FSCalendarDelegateAppearanceDeprecatedProtocol;
 
