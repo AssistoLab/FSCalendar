@@ -508,7 +508,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     }
     BOOL shouldSelect = YES;
     if (cell.date && [self isDateInRange:cell.date] && !_supressEvent) {
-        shouldSelect &= [self shouldSelectDate:cell.date];
+		shouldSelect &= [self shouldSelectCell:cell withDate:targetDate];
     }
     if (shouldSelect) {
         if (!self.allowsMultipleSelection && self.selectedDate) {
@@ -1820,6 +1820,14 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         return [_delegate calendar:self shouldSelectDate:date];
     }
     return YES;
+}
+
+- (BOOL)shouldSelectCell:(FSCalendarCell *)cell withDate:(NSDate *)date;
+{
+	if (_delegate && [_delegate respondsToSelector:@selector(calendar:shouldSelectCell:withDate:)]) {
+		return [_delegate calendar:self shouldSelectDate:date];
+	}
+	return YES;
 }
 
 - (void)didSelectDate:(NSDate *)date
