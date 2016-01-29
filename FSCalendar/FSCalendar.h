@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarScrollDirection) {
 
 @optional
 - (BOOL)calendar:(FSCalendar *)calendar shouldSelectDate:(NSDate *)date;
-- (void)calendar:(FSCalendar *)calendar shouldSelectCell:(FSCalendarCell *)cell withDate:(NSDate *)date;
+- (BOOL)calendar:(FSCalendar *)calendar shouldSelectCell:(FSCalendarCell *)cell withDate:(NSDate *)date;
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date;
 - (void)calendar:(FSCalendar *)calendar didSelectCell:(FSCalendarCell *)cell withDate:(NSDate *)date;
 - (BOOL)calendar:(FSCalendar *)calendar shouldDeselectDate:(NSDate *)date;

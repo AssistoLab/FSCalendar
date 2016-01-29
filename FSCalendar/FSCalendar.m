@@ -1825,7 +1825,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 - (BOOL)shouldSelectCell:(FSCalendarCell *)cell withDate:(NSDate *)date;
 {
 	if (_delegate && [_delegate respondsToSelector:@selector(calendar:shouldSelectCell:withDate:)]) {
-		return [_delegate calendar:self shouldSelectDate:date];
+		return [_delegate calendar:self shouldSelectCell:cell withDate:date];
 	}
 	return YES;
 }
