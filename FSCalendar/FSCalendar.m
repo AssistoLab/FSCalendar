@@ -502,6 +502,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         } else {
             // 点击了已经选择的日期，直接触发事件
             [self didSelectDate:self.selectedDate];
+			[self didSelectCell:cell atIndexPath:indexPath];
         }
         return NO;
     }
