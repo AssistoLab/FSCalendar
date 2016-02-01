@@ -441,6 +441,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 {
     FSCalendarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     [self reloadDataForCell:cell atIndexPath:indexPath];
+	cell.backgroundView = [self backgroundImageViewForDate:[self dateForIndexPath:indexPath]];
     return cell;
 }
 
@@ -1810,6 +1811,24 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     CGSize sizeInPoints = [UIScreen mainScreen].bounds.size;
     FSCalendarOrientation orientation = scale * sizeInPoints.width == nativeSize.width ? FSCalendarOrientationPortrait : FSCalendarOrientationLandscape;
     return orientation;
+}
+
+- (UIImageView *)backgroundImageViewForDate:(NSDate *)date
+{
+	for (NSDate *timeSlotDate in self.selectedTimeSlots) {
+		if ([timeSlotDate isEqualToDate:date]) {
+			NSArray *selectedPeriod = self.selectedTimeSlots[date];
+			if ([selectedPeriod[0] boolValue] && [selectedPeriod[1] boolValue]) {	// Full Day
+				return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle4"]];
+			} else if ([selectedPeriod[0] boolValue]) {	// AM
+				return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle2"]];
+			} else if ([selectedPeriod[1] boolValue]) {	// PM
+				return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle3"]];
+			}
+		}
+	}
+	
+	return nil;
 }
 
 #pragma mark - Delegate

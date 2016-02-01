@@ -99,6 +99,8 @@ IB_DESIGNABLE
 
 @property (readonly, nonatomic) NSDate *selectedDate;
 @property (readonly, nonatomic) NSArray *selectedDates;
+@property (nonatomic) NSDictionary *selectedTimeSlots;
+
 
 - (void)reloadData;
 - (CGSize)sizeThatFits:(CGSize)size;
