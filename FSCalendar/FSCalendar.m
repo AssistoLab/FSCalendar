@@ -14,7 +14,6 @@
 #import "UIView+FSExtension.h"
 #import "NSString+FSExtension.h"
 #import "FSCalendarDynamicHeader.h"
-#import "FSCalendarCollectionView.h"
 
 typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     FSCalendarOrientationLandscape,
@@ -66,7 +65,6 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 @property (weak  , nonatomic) CAShapeLayer               *maskLayer;
 @property (weak  , nonatomic) UIView                     *topBorder;
 @property (weak  , nonatomic) UIView                     *bottomBorder;
-@property (weak  , nonatomic) FSCalendarCollectionView   *collectionView;
 @property (weak  , nonatomic) UICollectionViewFlowLayout *collectionViewLayout;
 
 @property (weak  , nonatomic) FSCalendarHeader           *header;
@@ -441,7 +439,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 {
     FSCalendarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     [self reloadDataForCell:cell atIndexPath:indexPath];
-	cell.backgroundView = [self backgroundImageViewForDate:[self dateForIndexPath:indexPath]];
+	[self backgroundImageViewForCell:cell AtDate:[self dateForIndexPath:indexPath]];
     return cell;
 }
 
@@ -1813,24 +1811,28 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     return orientation;
 }
 
-- (UIImageView *)backgroundImageViewForDate:(NSDate *)date
+- (void)backgroundImageViewForCell:(FSCalendarCell *)cell AtDate:(NSDate *)date
 {
+	UIImageView *image = nil;
 	for (NSDate *timeSlotDate in self.selectedTimeSlots) {
 		if ([timeSlotDate isEqualToDate:date]) {
 			NSArray *selectedPeriod = self.selectedTimeSlots[date];
 			if ([selectedPeriod[0] boolValue] && [selectedPeriod[1] boolValue]) {	// Full Day
-				return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle4"]];
+				image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle4"]];
+				cell.preferedTitleDefaultColor = [UIColor whiteColor];
+				break;
 			} else if ([selectedPeriod[0] boolValue]) {	// AM
-				return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle2"]];
+				image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle2"]];
+				break;
 			} else if ([selectedPeriod[1] boolValue]) {	// PM
-				return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle3"]];
+				image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle3"]];
+				break;
 			}
 		}
 	}
 	
-	return nil;
+	cell.backgroundView = image;
 }
-
 #pragma mark - Delegate
 
 - (BOOL)shouldSelectDate:(NSDate *)date

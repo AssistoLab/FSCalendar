@@ -10,6 +10,7 @@
 #import "FSCalendarAppearance.h"
 #import "FSCalendarConstance.h"
 #import "FSCalendarCell.h"
+#import "FSCalendarCollectionView.h"
 
 //! Project version number for FSCalendar.
 FOUNDATION_EXPORT double FSCalendarVersionNumber;
@@ -79,6 +80,7 @@ IB_DESIGNABLE
 @property (weak, nonatomic) IBOutlet id<FSCalendarDelegate> delegate;
 @property (weak, nonatomic) IBOutlet id<FSCalendarDataSource> dataSource;
 
+@property (weak, nonatomic) FSCalendarCollectionView *collectionView;
 @property (strong, nonatomic) NSDate *today;
 @property (strong, nonatomic) NSDate *currentPage;
 @property (strong, nonatomic) NSLocale *locale;
