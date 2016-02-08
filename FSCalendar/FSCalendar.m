@@ -1713,6 +1713,7 @@ _scope = scope; \
 - (void)reloadDataForCell:(FSCalendarCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
 	cell.calendar = self;
+	cell.hidden = false;
 	cell.date = [self dateForIndexPath:indexPath];
 	cell.image = [self imageForDate:cell.date];
 	cell.hasEvent = [self hasEventForDate:cell.date];
