@@ -453,13 +453,6 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 	NSDate *date = [self dateForIndexPath:indexPath];
 	
 	[self reloadDataForCell:cell atIndexPath:indexPath];
-	[self backgroundImageViewForCell:cell AtDate:date];
-	
-	NSDateComponents *dateComponent = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:date];
-	
-	if (!([self.displayedMonth[indexPath.section] integerValue] == dateComponent.month)) {
-		cell.hidden = true;
-	}
 	
 	return cell;
 }
@@ -1750,6 +1743,15 @@ _scope = scope; \
 	} else if ([_collectionView.indexPathsForSelectedItems containsObject:indexPath]) {
 		[_collectionView deselectItemAtIndexPath:indexPath animated:NO];
 	}
+	
+	cell.backgroundView = [self backgroundImageForDate:cell.date];
+	
+	// Hide extras cell
+	NSDateComponents *dateComponent = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:cell.date];
+	if (!([self.displayedMonth[indexPath.section] integerValue] == dateComponent.month)) {
+		cell.hidden = true;
+	}
+	
 	[cell setNeedsLayout];
 }
 
@@ -1833,29 +1835,16 @@ _scope = scope; \
 	return orientation;
 }
 
-- (void)backgroundImageViewForCell:(FSCalendarCell *)cell AtDate:(NSDate *)date
+#pragma mark - Delegate
+
+- (UIImageView *)backgroundImageForDate:(NSDate *)date
 {
-	UIImageView *image = nil;
-	for (NSDate *timeSlotDate in self.selectedTimeSlots) {
-		if ([timeSlotDate isEqualToDate:date]) {
-			NSArray *selectedPeriod = self.selectedTimeSlots[date];
-			if ([selectedPeriod[0] boolValue] && [selectedPeriod[1] boolValue]) {	// Full Day
-				image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle4"]];
-				cell.preferedTitleDefaultColor = [UIColor whiteColor];
-				break;
-			} else if ([selectedPeriod[0] boolValue]) {	// AM
-				image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle2"]];
-				break;
-			} else if ([selectedPeriod[1] boolValue]) {	// PM
-				image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_calendar_circle3"]];
-				break;
-			}
-		}
+	if(_dataSource && [_dataSource respondsToSelector:@selector(calendar:backgroundImageForDate:)]) {
+		return [_dataSource calendar:self backgroundImageForDate:date];
 	}
 	
-	cell.backgroundView = image;
+	return nil;
 }
-#pragma mark - Delegate
 
 - (BOOL)shouldSelectDate:(NSDate *)date
 {

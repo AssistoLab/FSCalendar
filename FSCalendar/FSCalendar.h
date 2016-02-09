@@ -19,13 +19,13 @@ FOUNDATION_EXPORT double FSCalendarVersionNumber;
 FOUNDATION_EXPORT const unsigned char FSCalendarVersionString[];
 
 typedef NS_ENUM(NSUInteger, FSCalendarScope) {
-    FSCalendarScopeMonth,
-    FSCalendarScopeWeek
+	FSCalendarScopeMonth,
+	FSCalendarScopeWeek
 };
 
 typedef NS_ENUM(NSUInteger, FSCalendarScrollDirection) {
-    FSCalendarScrollDirectionVertical,
-    FSCalendarScrollDirectionHorizontal
+	FSCalendarScrollDirectionVertical,
+	FSCalendarScrollDirectionHorizontal
 };
 
 @class FSCalendarCell;
@@ -51,6 +51,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarScrollDirection) {
 @optional
 - (NSString *)calendar:(FSCalendar *)calendar subtitleForDate:(NSDate *)date;
 - (UIImage *)calendar:(FSCalendar *)calendar imageForDate:(NSDate *)date;
+- (UIImageView *)calendar:(FSCalendar *)calendar backgroundImageForDate:(NSDate *)date;
 - (BOOL)calendar:(FSCalendar *)calendar hasEventForDate:(NSDate *)date;
 - (NSDate *)minimumDateForCalendar:(FSCalendar *)calendar;
 - (NSDate *)maximumDateForCalendar:(FSCalendar *)calendar;
@@ -101,8 +102,6 @@ IB_DESIGNABLE
 
 @property (readonly, nonatomic) NSDate *selectedDate;
 @property (readonly, nonatomic) NSArray *selectedDates;
-@property (nonatomic) NSDictionary *selectedTimeSlots;
-
 
 - (void)reloadData;
 - (CGSize)sizeThatFits:(CGSize)size;
