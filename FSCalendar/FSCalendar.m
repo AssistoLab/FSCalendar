@@ -442,6 +442,10 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 		NSDateComponents *components = [self.calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitWeekday | NSCalendarUnitDay | NSCalendarUnitHour fromDate:firstDateOfMonth];
 		
 		// Monday = 2, Thursday = 3, ...
+		if ([components weekday] == 1) {	// Sunday == 1 so Need to make a particular case for it
+			return (days.length + 6);	// (7 + 1) - 2
+		}
+		
 		return days.length + ([components weekday] - 2);
 	}
 	return 7;
